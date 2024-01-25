@@ -5,19 +5,20 @@ import {
   TodosContextType,
   UpdateTodo,
 } from "@contexts/TodosContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TodoProvider = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [todos, setTodos] = useState<Todo[]>((): Todo[] => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  useEffect(() => {
     const initialTodos: Todo[] = JSON.parse(
       localStorage.getItem("todos") || "[]",
     );
-    return initialTodos;
-  });
+    setTodos(initialTodos);
+  }, []);
 
   /**
    * @description Adds a new todo task to the todos list.
